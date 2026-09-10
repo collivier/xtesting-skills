@@ -1,0 +1,29 @@
+{
+  "name": "xtesting-skills",
+  "owner": {
+    "name": "Cédric Ollivier"
+  },
+  "metadata": {
+    "description": "Agent skills for building, running and publishing Xtesting-based test containers.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "xtesting",
+      "description": "Agent skills for working with Xtesting: testcases.yaml, drivers, containerization and result publishing.",
+      "source": "./",
+      "skills": [
+        "./skills/xtesting-ansible-integration",
+        "./skills/xtesting-bash-integration",
+        "./skills/xtesting-behave-integration",
+        "./skills/xtesting-ci-toolchain",
+        "./skills/xtesting-pytest-integration",
+        "./skills/xtesting-robot-integration",
+        "./skills/xtesting-run-publish",
+        "./skills/xtesting-testcases-config",
+        "./skills/xtesting-unittest-integration",
+        "./skills/xtesting-write-driver"
+      ]
+    }
+  ]
+}
