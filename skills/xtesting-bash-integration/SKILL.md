@@ -23,13 +23,15 @@ command available inside the container.
   or ship it inside your pip package and reference it by installed path.
 
 `bashfeature` is bundled with Xtesting (`xtesting.core.feature.BashFeature`),
-so no Docker build steps are needed beyond package installation:
+so no Python driver or extra framework is needed — install Xtesting itself in
+the image (it provides `run_tests` and the driver) plus your package:
 
 ```dockerfile
 FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git && \
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
     git init /src && pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]

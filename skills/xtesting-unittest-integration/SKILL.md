@@ -37,8 +37,9 @@ class TestStringMethods(unittest.TestCase):
 
 The driver needs the subunit tooling: `subunit-stats` and `subunit2junitxml`
 (both shipped by the `python-subunit` PyPI package) and `subunit2html`
-(shipped by `os-testr`). Installing `xtesting` already pulls in all three
-(deprecated `subunit`/`subunit2junitxml` PyPI names and Alpine's
+(shipped by `os-testr`). All three are dependencies of xtesting, so the
+`pip3 install xtesting` line below pulls them in — no explicit install is
+needed (deprecated `subunit`/`subunit2junitxml` PyPI names and Alpine's
 `py3-subunit*` packages are **not** required):
 
 ```dockerfile
@@ -46,7 +47,7 @@ FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git && \
-    pip3 install --break-system-packages --no-cache-dir python-subunit os-testr && \
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
     pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]

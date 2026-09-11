@@ -36,17 +36,16 @@ Behave.
 ## 2. Install the dependencies in the Dockerfile
 
 The driver is `behave` plus the HTML formatter plugin (`behave-html-formatter`,
-used for `--format=behave_html_formatter:HTMLFormatter`). Both are already
-declared in xtesting's `requirements.txt` (present on the official `opnfv/
-xtesting` image and whenever you pip-install xtesting). The explicit install is
-only needed when building from scratch:
+used for `--format=behave_html_formatter:HTMLFormatter`). Both are dependencies
+of xtesting — the `pip3 install xtesting` line below pulls them in, so no
+explicit install is needed:
 
 ```dockerfile
 FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git py3-lxml && \
-    pip3 install --break-system-packages --no-cache-dir behave behave-html-formatter && \
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
     pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]

@@ -22,6 +22,7 @@ FROM alpine:3.24
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git && \
     apk add --no-cache ansible openssh-client && \
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
     pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]
@@ -31,7 +32,8 @@ CMD ["run_tests", "-t", "all"]
 > ansible`); on Debian/other images, install it via your package manager or
 > `pip install ansible`. `ansible-runner` (the Python lib the driver uses) is
 > already declared in xtesting's `requirements.txt`, so no extra pip install is
-> needed.
+> needed once xtesting itself is installed (the `pip3 install xtesting` line
+> above).
 >
 > Note: `check_requirements()` **skips the test case if `ansible-playbook` is
 > not in `$PATH`**.

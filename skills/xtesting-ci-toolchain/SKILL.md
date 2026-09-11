@@ -19,12 +19,16 @@ FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git py3-lxml && \
-    git init /src && pip3 install --break-system-packages --no-cache-dir /src
+    git init /src && pip3 install --break-system-packages --no-cache-dir xtesting && \
+    pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]
 ```
 
 Key points:
+- Xtesting itself is installed directly in the image (`pip3 install xtesting`)
+  so the container gets `run_tests` and the drivers without requiring the test
+  project to declare it as a dependency.
 - `pip3 install /src` builds via pbr (entry points land in the image).
 - Alpine 3.20+ (incl. 3.24) marks Python as externally-managed (PEP 668) —
   pip installs must pass `--break-system-packages`, as in the example and in

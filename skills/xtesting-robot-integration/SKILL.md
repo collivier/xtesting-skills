@@ -30,18 +30,16 @@ container:
 
 ## 2. Install the dependency in the Dockerfile
 
-`robotframework` is already declared in xtesting's `requirements.txt`, so it
-is present in the official `opnfv/xtesting` image and whenever you
-`pip3 install /src`/`pip3 install xtesting`. The explicit install is only
-needed when building from scratch:
+`robotframework` is a dependency of xtesting — the `pip3 install xtesting`
+line below pulls it in, so no explicit install is needed:
 
 ```dockerfile
 FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git && \
-    git init /src && pip3 install --break-system-packages --no-cache-dir robotframework && \
-    pip3 install --break-system-packages --no-cache-dir /src
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
+    git init /src && pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]
 ```

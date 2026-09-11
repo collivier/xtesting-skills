@@ -29,17 +29,16 @@ container and be importable if your tests import local modules:
 
 ## 2. Install the dependency in the Dockerfile
 
-`pytest` (and `pytest-html`) are already declared in xtesting's
-`requirements.txt` — present on the official `opnfv/xtesting` image and on any
-`pip3 install /src` build. The explicit install is only needed when building
-from scratch:
+`pytest` (and `pytest-html`) are dependencies of xtesting — the `pip3 install
+xtesting` line below pulls them in, so no explicit install is needed:
 
 ```dockerfile
 FROM alpine:3.24
 
 ADD . /src/
 RUN apk --no-cache add --update python3 py3-pip py3-wheel git && \
-    pip3 install --break-system-packages --no-cache-dir pytest && pip3 install --break-system-packages --no-cache-dir /src
+    pip3 install --break-system-packages --no-cache-dir xtesting && \
+    pip3 install --break-system-packages --no-cache-dir /src
 COPY testcases.yaml /etc/xtesting/testcases.yaml
 CMD ["run_tests", "-t", "all"]
 ```
